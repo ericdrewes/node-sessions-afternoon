@@ -1,42 +1,34 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const session = require('express-session')
+const express = require('express');
+const  {json} = require('body-parser');
+const session = require('express-session');
 
-const checkForSession = require('./middlewares/checkForSessions')
+//MIDDLEWARE
+const checkForSession = require('./middlewares/checkForSessions');
 
-const swag_controller = require('./controllers/swag_controller')
+//CONTROLLERS
+const swag_controller = require('./controllers/swag_controller');
 const auth_controller = require('./controllers/auth_controller')
-const cart_controller = require('./controllers/cart_controller')
-const search_controller = require('./controllers/search_controller')
 
-const app = express()
+const app = express();
 
-app.use(bodyParser.json())
+app.use(json());
+app.use( session({
+	secret: "a cow jumped over venus to get back to the mothership",
+	resave: false,
+	saveUninitialized: false;
+}));
 
-app.use(
-	session({
-		secret: 'a secret',
-		resave: false,
-		saveUninitialized: false
-	})
-)
 app.use(checkForSession)
-app.use(express.static(`${__dirname}/../public/build`))
 
-app.get('/api/swag', swag_controller.read)
+//Swag:
+app.get('/api/swag', swag_controller.read);
 
-app.post('/api/login', auth_controller.login)
-app.post('/api/register', auth_controller.register)
-app.post('/api/signout', auth_controller.signout)
-app.get('/api/user', auth_controller.getUser)
+// Auth:
+app.post('/api/login', auth_controller.login);
+app.post('/api/register', auth_controller.register);
+app.post('/api/signout', auth_controller.signout);
+app.post('/api/user', auth_controller.getUser);
 
-app.post('/api/cart', cart_controller.add)
-app.post('/api/cart/checkout', cart_controller.checkout)
-app.delete('/api/cart', cart_controller.delete)
 
-app.get('/api/search', search_controller.search)
-
-const port = 3000
-app.listen(port, () => {
-	console.log(`Server listening on ${port}`)
-})
+const port = 3000;
+app.listen(port, () => {console.log(`Listening on Port: ${port}!`);});

@@ -1,42 +1,41 @@
-const users = require('../models/users')
+const swag = require('../models/swag');
 
-var id = 1
+const users = require('../models/users');
+let id = 1;
 
 module.exports = {
-	login: (req, res, next) => {
-		const { session } = req
-		const { username, password } = req.body
+	login: (req, res) => {
+		const {session} = req;
+		const {username, password} = req.body;
 
-		const user = users.find(user => user.username === username && user.password === password)
+		const user = users.find( user => user.username === username && user.password === password);
 
-		if (user) {
-			session.user.username = user.username
-			res.status(200).send(session.user)
+		if(user) {
+			session.user.username = user.username;
+			res.status(200).json(session.user);
 		} else {
-			res.status(500).send('Unauthorized')
+			res.status(500).json("UNAUTHORIZED")
 		}
 	},
+	register: (req, res) => {
+		const {session} = req;
+		const {username, password} = req.body;
 
-	register: (req, res, next) => {
-		const { session } = req
-		const { username, password } = req.body
+		users.push({id, username, password});
+		id++;
 
-		users.push({ id, username, password })
-		id++
+		session.user.username = username;
+		
+		res.status(200).json(Session.user);
 
-		session.user.username = username
-
-		res.status(200).send(session.user)
 	},
-
-	signout: (req, res, next) => {
-		const { session } = req
-		session.destroy()
-		res.status(200).send(req.session)
+	signout: (req, res) => {
+		const {session} = req;
+		session.destroy();
+		res.status(200).json(session.user);
 	},
-
-	getUser: (req, res, next) => {
-		const { session } = req
-		res.status(200).send(session.user)
+	getUser: (req, res) => {
+		const {session} = req;
+		res.status(200).json(session.user);
 	}
 }
