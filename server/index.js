@@ -1,6 +1,7 @@
 const express = require('express');
 const  {json} = require('body-parser');
 const session = require('express-session');
+require('dotenv').config();
 
 //MIDDLEWARE
 const checkForSession = require('./middlewares/checkForSessions');
@@ -15,12 +16,13 @@ const app = express();
 
 app.use(json());
 app.use( session({
-	secret: "a cow jumped over venus to get back to the mothership",
+	secret: provess.env.SESSION_SECRET
 	resave: false,
 	saveUninitialized: false;
 }));
 
 app.use(checkForSession)
+app.use(express.static(`${__dirname}/build`))
 
 //Swag:
 app.get('/api/swag', swag_controller.read);
@@ -40,5 +42,5 @@ app.delete('/api/cart', cart_controller.delete);
 app/get('/api/search', search_controller.search);
 
 
-const port = 3000;
+const port = process.env.port || 3000;
 app.listen(port, () => {console.log(`Listening on Port: ${port}!`);});
