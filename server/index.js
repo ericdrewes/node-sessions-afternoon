@@ -4,7 +4,7 @@ const session = require('express-session');
 require('dotenv').config();
 
 //MIDDLEWARE
-const checkForSession = require('./middlewares/checkForSessions');
+const checkForSession = require(`${__dirname}/middlewares/checkForSessions`);
 
 //CONTROLLERS
 const swag_controller = require('./controllers/swag_controller');
