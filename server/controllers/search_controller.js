@@ -1,14 +1,13 @@
 const swag = require('../models/swag')
 
-
 module.exports = {
-  : (req, res, next) => {
+  search: (req, res, next) => {
     const {category} = req.query;
-      if(!category) {
-        res.status(200).send(swag);
-      } else {
-        const filteredSwag = swag.filter(swag => swag.category === category);
-        res.status(200).send(filteredSwag);
+    if(!category) {
+      res.status(200).json(swag)
+    } else {
+      const filteredSwag = swag.filter(swag => swag.category === category)
+      res.status(200).json(filteredSwag);
     }
   }
-};
+}

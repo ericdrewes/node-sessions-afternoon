@@ -25,7 +25,8 @@ module.exports = {
 			cart.splice(i, 1);
 			res.session.user.total -= selectedSwag.price;
 		}
-''		res.status(200).json(req.session.user);
+		res.status(200).json(req.session.user);
+		
 	},
 	checkout: (req, res) => {
 		const {user} = req.session;
