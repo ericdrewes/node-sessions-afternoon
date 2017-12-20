@@ -26,7 +26,7 @@ module.exports = {
 
 		session.user.username = username;
 		
-		res.status(200).json(Session.user);
+		res.status(200).json(session.user);
 
 	},
 	signout: (req, res, next) => {
