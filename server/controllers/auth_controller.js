@@ -4,7 +4,7 @@ const users = require('../models/users');
 let id = 1;
 
 module.exports = {
-	login: (req, res) => {
+	login: (req, res, next) => {
 		const {session} = req;
 		const {username, password} = req.body;
 
@@ -17,7 +17,7 @@ module.exports = {
 			res.status(500).json("UNAUTHORIZED")
 		}
 	},
-	register: (req, res) => {
+	register: (req, res, next) => {
 		const {session} = req;
 		const {username, password} = req.body;
 
@@ -29,12 +29,12 @@ module.exports = {
 		res.status(200).json(Session.user);
 
 	},
-	signout: (req, res) => {
+	signout: (req, res, next) => {
 		const {session} = req;
 		session.destroy();
 		res.status(200).json(session.user);
 	},
-	getUser: (req, res) => {
+	getUser: (req, res, next) => {
 		const {session} = req;
 		res.status(200).json(session.user);
 	}

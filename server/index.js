@@ -4,7 +4,7 @@ const session = require('express-session');
 require('dotenv').config();
 
 //MIDDLEWARE
-const checkForSession = require(`${__dirname}/middlewares/checkForSessions`);
+const checkForSession = require('./middlewares/checkForSessions');
 
 //CONTROLLERS
 const swag_controller = require('./controllers/swag_controller');
@@ -16,12 +16,12 @@ const app = express();
 
 app.use(json());
 app.use( session({
-	secret: provess.env.SESSION_SECRET
+	secret: process.env.SESSION_SECRET,
 	resave: false,
-	saveUninitialized: false;
+	saveUninitialized: true
 }));
-
 app.use(checkForSession)
+
 app.use(express.static(`${__dirname}/build`))
 
 //Swag:
@@ -39,7 +39,7 @@ app.post('/api/cart/checkout', cart_controller.checkout);
 app.delete('/api/cart', cart_controller.delete);
 
 // Search:
-app/get('/api/search', search_controller.search);
+app.get('/api/search', search_controller.search);
 
 
 const port = process.env.port || 3000;

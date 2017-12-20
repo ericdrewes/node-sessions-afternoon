@@ -1,7 +1,7 @@
 const swag = require('../models/swag');
 
 module.exports = {
-	add: (req, res) => {
+	add: (req, res, next) => {
 		const {id} = req.query;
 		let {cart} = req.session.user;
 
@@ -16,7 +16,7 @@ module.exports = {
 		res.status(200).json(req.session.user)
 	},
 
-	delete: (req, res) => {
+	delete: (req, res, next) => {
 		const {id} = req.query;
 		const {cart} = req.session.user;
 
@@ -28,7 +28,7 @@ module.exports = {
 		res.status(200).json(req.session.user);
 		
 	},
-	checkout: (req, res) => {
+	checkout: (req, res, next) => {
 		const {user} = req.session;
 		user.cart = [];
 		user.total = 0
